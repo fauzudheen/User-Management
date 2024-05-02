@@ -1,11 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
-class UserDetail(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='user_detail')
-    profile = models.ImageField(upload_to='profile')
+class MyUser(AbstractUser):
+    profile = models.ImageField(upload_to='profiles', blank=True, null=True)
 
     class Meta:
         ordering = ['id']
