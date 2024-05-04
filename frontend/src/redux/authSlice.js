@@ -12,20 +12,20 @@ export const authSlice = createSlice({
     initialState,
     reducers: {
         setUserLogin: (state, action) => {
-            state.isAuthenticated = true;
+            state.isUserAuthenticated = true;
             state.userToken = action.payload;
         },
         setUserLogout: (state, action) => {
-            state.isAuthenticated = false;
+            state.isUserAuthenticated = false;
             state.userToken = null;
         },
         setAdminLogin: (state, action) => {
-            state.isAuthenticated = true;
-            state.userToken = action.payload;
+            state.isAdminAuthenticated = true;
+            state.AdminToken = action.payload;
         },
         setAdminLogout: (state, action) => {
-            state.isAuthenticated = false;
-            state.userToken = null;
+            state.isAdminAuthenticated = false;
+            state.AdminToken = null;
         },
     }
 })

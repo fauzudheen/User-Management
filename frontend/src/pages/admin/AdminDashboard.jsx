@@ -9,7 +9,7 @@ const Admin = () => {
   useEffect(() => {
     const getTotalUsers = async() => {
       try {
-        const response = await axios.get(BaseUrl)
+        const response = await axios.get(BaseUrl+"users")
         setTotalUsers(response.data.length)
       } catch (error) {
         console.error("Error fetching totalUsers count", error)
@@ -19,7 +19,7 @@ const Admin = () => {
   })
 
   return (
-    <div className="h-screen w-screen bg-purple-100">
+    <div className="h-screen w-screen bg-lime-100">
       <AdminNav /> 
       <div className="px-4 py-8">
         <h1 className="text-3xl font-bold mb-8 text-center">Admin Dashboard</h1>

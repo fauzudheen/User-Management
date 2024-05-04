@@ -39,14 +39,18 @@ const CreateUser = () => {
                 if (profilePicture) {
                     formData.append('profile', profilePicture);
                 }
-                const response = await axios.post(BaseUrl, formData)
+                const response = await axios.post(`${BaseUrl}signup/`, formData)
                 
                 console.log("profile response:", response.data);
                 console.log("success")
                 navigate('/admin/users/')
             }
             catch (error) {
-                console.error("Error sending form", error)
+                if (error.response && error.response.data) {
+                    setError(error.response.data.detail);
+                } else {
+                    setError('An error occurred. Please try again later.');
+                }
             }
             }else{
                 alert("All fields are required")

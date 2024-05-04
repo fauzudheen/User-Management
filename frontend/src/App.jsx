@@ -8,7 +8,11 @@ import UserHome from './pages/user/UserHome';
 import LandingPage from './pages/LandingPage';
 import UserSignin from './pages/user/UserSignin';
 import UserSignup from './pages/user/UserSignup';
-import PrivateRoutes from './utils/PrivateRoutes';
+import UserProfile from './pages/user/UserProfile';
+import UserProtectedRoutes from './utils/UserProtectedRoutes';
+import AdminProtectedRoutes from './utils/AdminProtectedRoutes';
+import AdminLogin from './pages/admin/AdminLogin';
+
 
 function App() {
 
@@ -16,17 +20,24 @@ function App() {
     <>
       <Routes>
         <Route path='/' element={<LandingPage />} />
-        <Route path='/admin' element={<Admin />} />
-        <Route path='/admin/users' element={<UserList />} />
-        <Route path='admin/users/create' element={<CreateUser />} />
-        <Route path='admin/users/edit/:id' element={<EditUser />} />
+      
+        <Route path='/admin/login' element={<AdminLogin />} />
 
-        <Route path='/user/signin' element={<UserSignin />} />
-        <Route path='/user/signup' element={<UserSignup />} />
-        
-        <Route element={<PrivateRoutes />}>
-          <Route path='/user/home' element={<UserHome />} />
+        <Route element={<AdminProtectedRoutes />}>
+          <Route path='/admin' element={<Admin />} />
+          <Route path='/admin/users' element={<UserList />} />
+          <Route path='admin/users/create' element={<CreateUser />} />
+          <Route path='admin/users/edit/:id' element={<EditUser />} />
         </Route>
+
+          <Route path='/user/signin' element={<UserSignin />} />
+          <Route path='/user/signup' element={<UserSignup />} />
+
+        <Route element={<UserProtectedRoutes />}>
+          <Route path='/user/home' element={<UserHome />} />
+          <Route path='/user/profile' element={<UserProfile />} />
+        </Route>
+
       </Routes>
     </>
   )

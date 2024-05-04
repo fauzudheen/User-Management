@@ -1,12 +1,16 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { setAdminLogout } from '../../redux/authSlice';
 
 const AdminNav = () => {
+    const dispatch = useDispatch()
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
+
 
     return (
         <nav className="bg-gray-800 shadow">
@@ -54,12 +58,9 @@ const AdminNav = () => {
                             >
                                 Users
                             </Link>
-                            <Link
-                                to="/logout"
-                                className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                            >
+                            <button onClick={() => dispatch(setAdminLogout())} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
                                 Logout
-                            </Link>
+                            </button>
                         </div>
                     </div>
                 </div>

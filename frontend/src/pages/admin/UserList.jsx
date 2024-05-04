@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaEdit, FaTrash } from 'react-icons/fa';
 import AdminNav from '../../components/admin/AdminNav';
+import { BaseUrl } from '../../components/const/urls';
 
 const UserList = () => {
     const [users, setUsers] = useState([]);
@@ -10,10 +11,14 @@ const UserList = () => {
 
     async function fetchUsers() {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/account/users/');
+            const response = await axios.get(`${BaseUrl}users/`);
             setUsers(response.data);
         } catch (error) {
-            console.error('Error fetching users:', error);
+            if (error.response && error.response.data) {
+                setError(error.response.data.detail);
+            } else {
+                setError('An error occurred. Please try again later.');
+            }
         }
     }
 
@@ -25,7 +30,7 @@ const UserList = () => {
         const shouldDelete = window.confirm("Are you sure you want to delete this user?");
         if (shouldDelete) {
         try {
-            await axios.delete(`http://127.0.0.1:8000/account/users/${id}`);
+            await axios.delete(`${BaseUrl}users/${id}/`);
             console.log("Deleted successfully");
             fetchUsers();
         } catch (error) {
@@ -41,7 +46,7 @@ const UserList = () => {
                 <div className="container mx-auto px-4 py-8">
                     <h1 className="text-3xl font-bold mb-8 text-center">User List</h1>
                     <Link to="create" className="block mb-4">
-                        <button className="bg-blue-800 hover:bg-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-600 text-white font-semibold px-4 py-2 rounded">
+                        <button className="bg-lime-800 hover:bg-lime-900 focus:outline-none focus:ring-2 focus:ring-blue-600 text-white font-semibold px-4 py-2 rounded">
                             Create User
                         </button>
                     </Link>

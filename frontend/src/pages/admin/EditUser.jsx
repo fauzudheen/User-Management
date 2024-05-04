@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios'
 import AdminNav from '../../components/admin/AdminNav';
+import { BaseUrl } from '../../components/const/urls';
 
 const EditUser = () => {
     const { id } = useParams();
@@ -48,24 +49,28 @@ const EditUser = () => {
 
     const handleSubmit = async(e) => {
         e.preventDefault()
-        if (username && email && firstName && lastName && password){
+        if (username && email && firstName && lastName){
         try {
                 const formData = new FormData();
                 formData.append('first_name', firstName);
                 formData.append('last_name', lastName);
                 formData.append('username', username);
                 formData.append('email', email);
-                formData.append('password', password);
+                // formData.append('password', password);
                 if (profilePicture) {
                     formData.append('profile', profilePicture);
                 }
         
-                await axios.patch(`http://127.0.0.1:8000/account/users/${id}/`, formData)
+                await axios.patch(`${BaseUrl}users/${id}/`, formData)
 
                 console.log("User updated successfully");
                 navigate('/admin/users')
         } catch (error) {
-            console.error("Error while updating", error)
+            if (error.response && error.response.data) {
+                setError(error.response.data.detail);
+            } else {
+                setError('An error occurred. Please try again later.');
+            }
         }
     }else{
         alert("All fields are required")
@@ -76,7 +81,7 @@ const EditUser = () => {
     <section>
     <AdminNav />
     <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 bg-yellow-100">
-        <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
+        <div className="w-full bg-yellow-50 rounded-lg shadow md:mt-0 sm:max-w-md xl:p-4">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8 bg-yellow-50">
                 <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
                     Edit User {console.log(user)}
@@ -136,7 +141,7 @@ const EditUser = () => {
                             </div>
                         </div>
                         <div className="flex flex-wrap">
-                            <div className="w-full md:w-1/2 pr-2">
+                            {/* <div className="w-full md:w-1/2 pr-2">
                                 <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">Password</label>
                                 <input 
                                     type="password"
@@ -147,7 +152,7 @@ const EditUser = () => {
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
-                            </div>
+                            </div> */}
                             <div className="w-full md:w-1/2 pl-2">
                                 <label htmlFor="profilePicture" className="block mb-2 text-sm font-medium text-gray-900">Profile Picture</label>
                                 {profilePictureURL ? (
