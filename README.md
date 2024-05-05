@@ -1,6 +1,3 @@
-Certainly! Here's an example of an exquisite README for your user management project:
-
----
 
 # User Management Project
 
