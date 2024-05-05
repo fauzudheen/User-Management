@@ -13,6 +13,7 @@ const CreateUser = () => {
     const [lastName, setLastName] = useState('');
     const [profilePicture, setProfilePicture] = useState('');
     const [profilePictureURL, setProfilePictureURL] = useState('');
+    const [error, setError] = useState('');
 
     const handleProfilePictureChange = (e) => {
         const file = e.target.files[0];
@@ -39,18 +40,16 @@ const CreateUser = () => {
                 if (profilePicture) {
                     formData.append('profile', profilePicture);
                 }
-                const response = await axios.post(`${BaseUrl}signup/`, formData)
-                
-                console.log("profile response:", response.data);
-                console.log("success")
+                await axios.post(`${BaseUrl}signup/`, formData)
                 navigate('/admin/users/')
             }
             catch (error) {
+                console.log(error.response.data)
+                let errors = [];
                 if (error.response && error.response.data) {
-                    setError(error.response.data.detail);
-                } else {
-                    setError('An error occurred. Please try again later.');
+                    errors = [...errors, ...Object.values(error.response.data)];
                 }
+                setError(errors);
             }
             }else{
                 alert("All fields are required")
@@ -150,6 +149,14 @@ const CreateUser = () => {
                                     </label>
                                 </div>
                             </div>
+                            {error && 
+                            <ul className='text-red-600 text-start'>
+                                <p className='font-semibold'>Error:</p>
+                                {error.map((err, index) => (
+                                <li key={index}>- {err}</li>
+                                ))}
+                            </ul>
+                            }
                             <button 
                                 type="submit" 
                                 className="w-full text-white bg-blue-900 font-medium rounded-lg text-sm px-5 py-2.5 text-center"

@@ -12,6 +12,7 @@ import UserProfile from './pages/user/UserProfile';
 import UserProtectedRoutes from './utils/UserProtectedRoutes';
 import AdminProtectedRoutes from './utils/AdminProtectedRoutes';
 import AdminLogin from './pages/admin/AdminLogin';
+import UserEditProfile from './pages/user/UserEditProfile';
 
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
         <Route element={<UserProtectedRoutes />}>
           <Route path='/user/home' element={<UserHome />} />
           <Route path='/user/profile' element={<UserProfile />} />
+          <Route path='/user/profile/edit' element={<UserEditProfile />} />
         </Route>
 
       </Routes>

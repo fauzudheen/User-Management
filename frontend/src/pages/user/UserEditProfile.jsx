@@ -1,40 +1,48 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios'
-import AdminNav from '../../components/admin/AdminNav';
 import { BaseUrl } from '../../components/const/urls';
+import { jwtDecode } from 'jwt-decode';
+import { useSelector } from 'react-redux';
+import UserNav from '../../components/user/UserNav';
 
-const EditUser = () => {
-    const { id } = useParams();
+const UserEditProfile = () => {
+    const [id, setId] = useState()
     const [user, setUser] = useState(null);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
     const [profilePicture, setProfilePicture] = useState(null);
     const [profilePictureURL, setProfilePictureURL] = useState(null);
     const navigate = useNavigate()
     const [error, setError] = useState('');
-
+    const token = useSelector(state => state.auth.userAccess)
+    
     useEffect(() => {
-        const fetchUser = async () => {
+        const fetchUser = async() => {
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/account/users/${id}`);
+                const decodedToken = jwtDecode(token)
+                const response = await axios.get(`${BaseUrl}users/${decodedToken.user_id}`)
+                console.log("Response", response.data)
+                setId(decodedToken.user_id)
                 setUser(response.data);
                 setFirstName(response.data.first_name);
                 setLastName(response.data.last_name);
                 setUsername(response.data.username);
                 setEmail(response.data.email);
-                setPassword(response.data.password);
                 setProfilePictureURL(response.data.profile);
-                
             } catch (error) {
-                console.error("Error fetching User", error);
-            }
-        };
+                console.log(error.response.data)
+                let errorMessage = 'An error occurred. Please try again later.';
+                if (error.response && error.response.data) {
+                    errorMessage = Object.values(error.response.data).join(' ');
+                }
+                setError(errorMessage);
+                }
+        }
         fetchUser();
-    }, [id]);
+    }, [])
 
     const handleProfilePictureChange = (e) => {
         const file = e.target.files[0];
@@ -64,14 +72,15 @@ const EditUser = () => {
         
                 await axios.patch(`${BaseUrl}users/${id}/`, formData)
 
-                navigate('/admin/users')
+                console.log("User updated successfully");
+                navigate('/user/profile')
         } catch (error) {
             console.log(error.response.data)
-            let errors = ['An error occurred. Please try again later.'];
+            let errorMessage = 'An error occurred. Please try again later.';
             if (error.response && error.response.data) {
-                errors = [...errors, ...Object.values(error.response.data)];
+                errorMessage = Object.values(error.response.data).join(' ');
             }
-            setError(errors);
+            setError(errorMessage);
         }
     }else{
         alert("All fields are required")
@@ -79,13 +88,13 @@ const EditUser = () => {
     }
 
   return (
-    <section>
-    <AdminNav />
-    <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0 bg-yellow-100">
+    <section style={{ height: "100vh", overflow: "hidden" }}>
+    <UserNav />
+    <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-full lg:py-0 bg-yellow-100">
         <div className="w-full bg-yellow-50 rounded-lg shadow md:mt-0 sm:max-w-md xl:p-4">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8 bg-yellow-50">
-                <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
-                    Edit User
+                <h1 className="text-xl font-bold text-center leading-tight tracking-tight text-gray-900 md:text-2xl">
+                    Edit Profile
                 </h1>
                 {user ? (
                     <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6">
@@ -199,4 +208,4 @@ const EditUser = () => {
   )
 }
 
-export default EditUser
+export default UserEditProfile

@@ -14,11 +14,7 @@ const UserList = () => {
             const response = await axios.get(`${BaseUrl}users/`);
             setUsers(response.data);
         } catch (error) {
-            if (error.response && error.response.data) {
-                setError(error.response.data.detail);
-            } else {
-                setError('An error occurred. Please try again later.');
-            }
+            console.error("Error fetching user", error)
         }
     }
 
@@ -31,7 +27,6 @@ const UserList = () => {
         if (shouldDelete) {
         try {
             await axios.delete(`${BaseUrl}users/${id}/`);
-            console.log("Deleted successfully");
             fetchUsers();
         } catch (error) {
             console.error("Error while deleting user", error);

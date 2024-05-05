@@ -6,7 +6,7 @@ import { BaseUrl } from '../../components/const/urls'
 import { jwtDecode } from 'jwt-decode'
 
 const UserHome = () => {
-    const token = useSelector(state => state.auth.userToken)
+    const token = useSelector(state => state.auth.userAccess)
     const [username, setUsername] = useState()
     const [error, setError] = useState('');
 
@@ -27,7 +27,7 @@ const UserHome = () => {
         fetchUser();
     })
   return (
-    <>
+    <div style={{ height: "100vh", overflow: "hidden" }}>
         <UserNav />
     <div className='bg-purple-100 h-screen flex flex-col justify-center items-center'>
       <div className='w-full flex justify-center'>
@@ -37,7 +37,7 @@ const UserHome = () => {
         </div>
       </div>
     </div>
-    </>
+    </div>
   )
 }
 

@@ -21,15 +21,15 @@ const AdminLogin = () => {
                 "username": username,
                 "password": password
             })
-            dispatch(setAdminLogin(response.data.access))
+            dispatch(setAdminLogin(response.data))
             navigate('/admin')
         } catch (error) {
             console.log(error.response.data)
-            let errorMessage = 'An error occurred. Please try again later.';
-            if (error.response && error.response.data) {
-                errorMessage = Object.values(error.response.data).join(' ');
-            }
-            setError(errorMessage);
+            let errors = [];
+                if (error.response && error.response.data) {
+                    errors = [...errors, ...Object.values(error.response.data)];
+                }
+                setError(errors);
         }    
     }
 
@@ -63,7 +63,14 @@ const AdminLogin = () => {
                 className="block w-full rounded-md border-0 p-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
               </div>
             </div>
-            {error && <p className='text-red-600 text-center'>Error: {error}</p>}
+            {error && 
+          <ul className='text-red-600 text-start'>
+            <p className='font-semibold'>Error:</p>
+            {error.map((err, index) => (
+              <li key={index}>- {err}</li>
+            ))}
+          </ul>
+          }
 
             <div className='flex w-full justify-center'>
               <button type="submit" className=" rounded-md bg-lime-800 px-5 py-2 text-lg font-semibold leading-6 text-white shadow-sm hover:bg-lime-900 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Login</button>

@@ -36,16 +36,16 @@ const UserSignup = () => {
         }
         try {
             const response = await axios.post(`${BaseUrl}signup/`, formData)
-            dispatch(setUserLogin(response.data.access))
+            dispatch(setUserLogin(response.data))
             alert(response.data.message)
             navigate('/user/home')
         } catch (error) {
             console.log(error.response.data)
-            let errorMessage = 'An error occurred. Please try again later.';
+            let errors = [];
             if (error.response && error.response.data) {
-                errorMessage = Object.values(error.response.data).join(' ');
+                errors = [...errors, ...Object.values(error.response.data)];
             }
-            setError(errorMessage);
+            setError(errors);
         }
     }
 
@@ -103,7 +103,14 @@ const UserSignup = () => {
               <button type="submit" className=" rounded-md bg-purple-800 px-5 py-2 text-lg font-semibold leading-6 text-white shadow-sm hover:bg-purple-900">Sign Up</button>
             </div>
           </form>
-          {error && <p className='text-red-600 text-center'>Error: {error}</p>}
+          {error && 
+          <ul className='text-red-600 text-start'>
+            <p className='font-semibold'>Error:</p>
+            {error.map((err, index) => (
+              <li key={index}>- {err}</li>
+            ))}
+          </ul>
+          }
           <p className="mt-10 text-center text-md text-gray-500">
             Already a member?
             <a href="/user/signin" className="font-semibold ml-2 leading-6 text-indigo-600 hover:text-indigo-500">Signin</a>

@@ -1,10 +1,10 @@
 from rest_framework import serializers
 from account.models import MyUser
 from django.contrib.auth import authenticate
+from django.contrib.auth.password_validation import validate_password
 
 class UserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(write_only=True)
-
+    password = serializers.CharField(write_only=True, validators=[validate_password])
     class Meta:
         model = MyUser
         fields = ['id', 'username', 'email', 'password', 'first_name', 'last_name', 'profile', 'date_joined']
