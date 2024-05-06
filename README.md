@@ -25,7 +25,7 @@ This project is a comprehensive user management system built using Python, Djang
 
 ## Setup Instructions
 
-1. Clone the repository: `git clone <repository-url>`
+1. Clone the repository: `git clone https://github.com/fauzudheen/User-Management.git`
 2. Navigate to the project directory: `cd user-management-project`
 3. Install dependencies for the backend:
    ```
