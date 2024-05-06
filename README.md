@@ -9,8 +9,6 @@ This project is a comprehensive user management system built using Python, Djang
 - **Authentication**: Users are authenticated using JSON Web Tokens (JWT), ensuring secure access to the system.
 - **User Management**: Regular users can register, login, update their profiles, and perform various user-specific actions.
 - **Admin Dashboard**: Administrators have access to an admin dashboard where they can manage users, view user details, and assign permissions.
-- **Responsive Design**: The application is designed to be responsive, providing a seamless experience across devices of all sizes.
-- **Tailwind CSS**: The user interface is styled using Tailwind CSS, offering a modern and customizable design.
 - **RESTful API**: The backend is built with Django Rest Framework (DRF), providing a RESTful API for seamless communication between the frontend and backend.
 
 ## Technologies Used
@@ -47,12 +45,3 @@ This project is a comprehensive user management system built using Python, Djang
 - Access the admin dashboard at `http://localhost:3000/admin` for administrators.
 - Use the provided authentication endpoints to register, login, and manage users.
 
-## Contributing
-
-Contributions are welcome! If you'd like to contribute to the project, please follow these steps:
-
-1. Fork the repository.
-2. Create a new branch for your feature: `git checkout -b feature-name`
-3. Make your changes and commit them: `git commit -m 'Add new feature'`
-4. Push to the branch: `git push origin feature-name`
-5. Submit a pull request.
